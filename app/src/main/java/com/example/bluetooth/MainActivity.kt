@@ -191,8 +191,8 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
         if(thisValue > 25) {
             startTime = System.currentTimeMillis().toInt()
-            toggled = true
         } else if (thisValue == 0) {
+            toggled = true
             endTime = System.currentTimeMillis().toInt()
         }
     }
