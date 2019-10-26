@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bluetooth</string>
 
+    <string name="button">Button</string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
     <string name="stop_command">Stop Command</string>

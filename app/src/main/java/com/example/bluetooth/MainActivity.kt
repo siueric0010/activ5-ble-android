@@ -12,10 +12,14 @@ import android.os.CountDownTimer
 import a5.com.a5bluetoothlibrary.A5DeviceManager
 import a5.com.a5bluetoothlibrary.A5BluetoothCallback
 import a5.com.a5bluetoothlibrary.A5Device
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -26,8 +30,28 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     private var device: A5Device? = null
     private var counter: Int = 0
     private var countDownTimer: CountDownTimer? = null
+    private var startTime =0
+    private var endTime = 0
+    private var toggled = false
 
     private lateinit var deviceAdapter: DeviceAdapter
+
+    // Aidan's variables for audio
+    private var paused = false
+
+    private lateinit var audioManager: AudioManager
+
+    /* Ensure media audio is paused, as we want to pause music */
+    private val audioAttributes: AudioAttributes =
+        AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build()
+
+    /* Take focus temporarily. For the moment, we don't care if audio focus changes */
+    private val audioFocusRequest: AudioFocusRequest =
+        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+            .setAudioAttributes(audioAttributes).setOnAudioFocusChangeListener { }.build()
+
+
+
 
     override fun bluetoothIsSwitchedOff() {
         Toast.makeText(this, "bluetooth is switched off", Toast.LENGTH_SHORT).show()
@@ -45,6 +69,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     }
 
     override fun deviceConnected(device: A5Device) {
+        device?.startIsometric()
     }
 
     override fun deviceFound(device: A5Device) {
@@ -66,6 +91,10 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.requestAudioFocus(audioFocusRequest)
+        button.setOnClickListener { changeButton() }
 
         requestPermission()
         initRecyclerView()
@@ -92,7 +121,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
 
         startIsometricButton.setOnClickListener {
-            device?.startIsometric()
+            //device?.startIsometric()
         }
 
         tareButton.setOnClickListener {
@@ -112,6 +141,19 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
     }
 
+
+    /*
+     * https://medium.com/androiddevelopers/audio-focus-3-cdc09da9c122
+     */
+    private fun changeButton() {
+        if (!paused) {
+            audioManager.requestAudioFocus(audioFocusRequest)
+            paused = true
+        } else {
+            audioManager.abandonAudioFocusRequest(audioFocusRequest)
+            paused = false
+        }
+    }
     @Synchronized
     private fun print(name: String, value: Int) {
         runOnUiThread {
@@ -139,6 +181,19 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             } else if (connectedDevices.size > 1 && connectedDevices[1]?.device?.address == thisDevice.device.address) {
                 print2(thisDevice.device.name, thisValue)
             }
+        }
+
+        if(startTime - endTime > 10 && startTime - endTime < 350 && toggled) {
+            changeButton()
+            startTime = System.currentTimeMillis().toInt()
+            endTime = System.currentTimeMillis().toInt()
+            toggled = false
+        }
+        if(thisValue > 25) {
+            startTime = System.currentTimeMillis().toInt()
+            toggled = true
+        } else if (thisValue == 0) {
+            endTime = System.currentTimeMillis().toInt()
         }
     }
 
