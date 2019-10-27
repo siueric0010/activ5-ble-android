@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
-    private var max = 100
+    private var max = 350
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -51,13 +51,15 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         gameScreenIsometric(device, value)
     }
     private fun gameScreenIsometric(thisDevice: A5Device, thisValue: Int) {
-        if(thisValue > max) {
+       /* if(thisValue > max) {
             max = thisValue
-        }
+            progressBar2.max = max
+        }*/
 
-        progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat())).toInt()), true)
+
         runOnUiThread {
-            textView.text = String.format("%d", 100.times((thisValue.toFloat().div(max.toFloat())).toInt()))
+            progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
+            textView.text = String.format("%d", 100.times((thisValue.toFloat().div(max.toFloat()))).toInt())
         }
     }
 
