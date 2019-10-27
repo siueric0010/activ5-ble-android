@@ -29,7 +29,7 @@ import java.util.*
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
     private var max = 350
 
-
+    private var hasNotReachedZero = false
 
     private lateinit var audioManager: AudioManager
 
@@ -75,7 +75,16 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
             max = thisValue
             progressBar2.max = max
         }*/
-
+        //if(thisValue >= max / 2) {
+        if(thisValue != 0  || hasNotReachedZero) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 3 +(thisValue / 30), AudioManager.FLAG_SHOW_UI)
+            hasNotReachedZero = false
+        } else if (thisValue > 0) {
+            hasNotReachedZero = true
+        }
+        //} else if (thisValue < max / 2) {
+          //  audioManager.adjustVolume(-1, AudioManager.FLAG_SHOW_UI)
+        //}
 
         runOnUiThread {
             progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
