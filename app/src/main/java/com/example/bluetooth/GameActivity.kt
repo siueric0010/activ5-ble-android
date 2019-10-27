@@ -29,6 +29,23 @@ import java.util.*
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
     private var max = 350
+
+
+
+    private lateinit var audioManager: AudioManager
+
+    /* Ensure media audio is paused, as we want to pause music */
+    private val audioAttributes: AudioAttributes =
+        AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build()
+
+    /* Take focus temporarily. For the moment, we don't care if audio focus changes */
+    private val audioFocusRequest: AudioFocusRequest =
+        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+            .setAudioAttributes(audioAttributes).setOnAudioFocusChangeListener { }.build()
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -37,6 +54,9 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         if(device != null)
             A5DeviceManager.connect(this, device)
         device?.startIsometric()
+
+
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
 
 
