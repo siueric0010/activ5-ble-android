@@ -146,9 +146,14 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             A5DeviceManager.scanForDevices()
         }
         gameStart.setOnClickListener {
-            val intent = Intent(this, GameActivity::class.java)
-            isPaused = true
-            startActivity(intent)
+            if(device != null) {
+                val intent = Intent(this, GameActivity::class.java)
+                isPaused = true
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please select and connect to a Activ5 device before playing the game", Toast.LENGTH_LONG).show()
+
+            }
 
         }
     }
