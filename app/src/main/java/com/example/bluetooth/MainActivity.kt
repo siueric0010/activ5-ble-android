@@ -28,7 +28,9 @@ import java.util.*
 class MainActivity : AppCompatActivity(), A5BluetoothCallback {
 
     private var connectedDevices = mutableListOf<A5Device?>()
-    private var device: A5Device? = null
+    companion object {
+        public var device: A5Device? = null
+    }
     private var counter: Int = 0
     private var countDownTimer: CountDownTimer? = null
     private var startTime =0
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         initRecyclerView()
 
         connectButton.setOnClickListener {
-            val device = this.device
+            val device = MainActivity.device
             if (device != null) {
                 A5DeviceManager.connect(this, device)
             }
@@ -196,6 +198,8 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
 
         progressBar2.setProgress(100 * (thisValue / max), true)
+        textView.setText(100 * (thisValue / max))
+
     }
     private fun mainScreenIsometric(thisDevice: A5Device, thisValue: Int) {
 
@@ -227,7 +231,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     }
 
     fun deviceSelected(device: A5Device) {
-        this.device = device
+        MainActivity.device = device
         Toast.makeText(this, "device selected: " + device.device.name, Toast.LENGTH_SHORT).show()
     }
 
