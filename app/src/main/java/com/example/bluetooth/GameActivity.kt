@@ -30,7 +30,7 @@ import java.util.*
 import kotlin.concurrent.thread
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
-    val MAX_SECONDS = 2
+    val MAX_SECONDS = 60
     private var max = 350
     private var sessionBest = 0
     private var seconds = MAX_SECONDS
@@ -63,10 +63,20 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         sessionBest = 0
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+
+        }
     }
     override fun onResume() {
         super.onResume()
         seconds = MAX_SECONDS
+        runOnUiThread {
+            backButton.visibility = View.INVISIBLE
+        }
         startBluetooth()
     }
 
@@ -82,11 +92,15 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
     override fun didReceiveIsometric(device: A5Device, value: Int) {
 
         thread { // launch a new coroutine in background and continue
-            Thread.sleep(1000L) // non-blocking delay for 1 second (default time unit is ms)
-            seconds--
+            while(seconds > 0) {
+                Thread.sleep(1000) // non-blocking delay for 1 second (default time unit is ms)
+                seconds--
+            }
         }
-        if(seconds == 0) {
-            backButton.visibility = View.VISIBLE
+        if(seconds <= 0) {
+            runOnUiThread {
+                backButton.visibility = View.VISIBLE
+            }
         }
         gameScreenIsometric(device, value)
     }
@@ -108,6 +122,7 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         runOnUiThread {
             progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
             textView.text = String.format("%d", 100.times((thisValue.toFloat().div(max.toFloat()))).toInt())
+            textView2.text = String.format("Time Left: %ds Best: %d", seconds, sessionBest)
         }
     }
 
