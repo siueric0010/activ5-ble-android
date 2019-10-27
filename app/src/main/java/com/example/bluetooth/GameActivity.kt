@@ -25,11 +25,15 @@ import android.view.Window
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Thread
 import java.util.*
+import kotlin.concurrent.thread
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
+    val MAX_SECONDS = 2
     private var max = 350
-
+    private var sessionBest = 0
+    private var seconds = MAX_SECONDS
     private var hasNotReachedZero = false
 
     private lateinit var audioManager: AudioManager
@@ -50,13 +54,20 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         val device = MainActivity.device
+        backButton.visibility = View.INVISIBLE
         startBluetooth()
         if(device != null)
             A5DeviceManager.connect(this, device)
         device?.startIsometric()
-
+        seconds = MAX_SECONDS
+        sessionBest = 0
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+    override fun onResume() {
+        super.onResume()
+        seconds = MAX_SECONDS
+        startBluetooth()
     }
 
 
@@ -69,6 +80,14 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
     }
 
     override fun didReceiveIsometric(device: A5Device, value: Int) {
+
+        thread { // launch a new coroutine in background and continue
+            Thread.sleep(1000L) // non-blocking delay for 1 second (default time unit is ms)
+            seconds--
+        }
+        if(seconds == 0) {
+            backButton.visibility = View.VISIBLE
+        }
         gameScreenIsometric(device, value)
     }
     private fun gameScreenIsometric(thisDevice: A5Device, thisValue: Int) {
@@ -86,7 +105,6 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         //} else if (thisValue < max / 2) {
           //  audioManager.adjustVolume(-1, AudioManager.FLAG_SHOW_UI)
         //}
-
         runOnUiThread {
             progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
             textView.text = String.format("%d", 100.times((thisValue.toFloat().div(max.toFloat()))).toInt())
