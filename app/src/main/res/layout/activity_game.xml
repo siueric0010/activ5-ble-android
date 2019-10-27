@@ -10,9 +10,13 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="@android:color/white"
             android:rotation="-90"
+            android:indeterminateTint="@android:color/holo_orange_dark"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
 
     <TextView
             android:id="@+id/textView"

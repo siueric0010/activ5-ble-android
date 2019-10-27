@@ -10,7 +10,10 @@
     <string name="start_isometric">Start Isometric</string>
     <string name="scan_devices">Scan Devices</string>
     <string name="tare">Tare</string>
-    <string name="instruc">1. For inital setup, please press "Scan Devices" to search for Activ5 device\n
+    <string name="instruc">1. For initial setup, please press \"Scan Devices\" to search for \n\t\tActiv5 device.\n
+        2. Once the Activ5 device appears, select it and press\n\t\t \"Connect\".\n
+        3. Once you have a music player (such as Spotify) playing,\n\t\t press the Activ5 to play and pause.\n
+        4. Enter \"Stamina Challenge\" to explore more about Activ5\n\t\t key functionality."
     </string>
 
     <string name="disconnected">Disconnected</string>
