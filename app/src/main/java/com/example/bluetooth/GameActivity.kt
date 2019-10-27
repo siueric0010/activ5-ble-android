@@ -52,21 +52,6 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         gameScreenIsometric(device, value)
     }
     private fun gameScreenIsometric(thisDevice: A5Device, thisValue: Int) {
-        if(thisValue > max) {
-            max = thisValue
-            progressBar2.max = max
-        } else {
-            runOnUiThread {
-                sleep(1000)
-                if(progressBar2.max > 100) {
-                    progressBar2.max -= progressBar2.max / 10
-                } else {
-                    progressBar2.max = 100
-                }
-            }
-
-        }
-
 
         runOnUiThread {
             progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
