@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     private var startTime =0
     private var endTime = 0
     private var toggled = false
+    private var isPaused = false
+    private var max = 100
 
     private lateinit var deviceAdapter: DeviceAdapter
 
@@ -51,7 +54,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             .setAudioAttributes(audioAttributes).setOnAudioFocusChangeListener { }.build()
 
 
-
+    public val EXTRA_MESSAGE = "818fhfh8geh9"
 
     override fun bluetoothIsSwitchedOff() {
         Toast.makeText(this, "bluetooth is switched off", Toast.LENGTH_SHORT).show()
@@ -139,6 +142,12 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
 
             A5DeviceManager.scanForDevices()
         }
+        gameStart.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            isPaused = true
+            startActivity(intent)
+
+        }
     }
 
 
@@ -175,6 +184,21 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     }
 
     private fun manageReceiveIsometric(thisDevice: A5Device, thisValue: Int) {
+        if(!isPaused) {
+            mainScreenIsometric(thisDevice, thisValue)
+        } else {
+            gameScreenIsometric(thisDevice, thisValue)
+        }
+    }
+    private fun gameScreenIsometric(thisDevice: A5Device, thisValue: Int) {
+        if(thisValue > max) {
+            max = thisValue
+        }
+
+        progressBar2.setProgress(100 * (thisValue / max), true)
+    }
+    private fun mainScreenIsometric(thisDevice: A5Device, thisValue: Int) {
+
         if (connectedDevices.isNotEmpty()) {
             if (connectedDevices[0]?.device?.address == thisDevice.device.address) {
                 print(thisDevice.device.name, thisValue)
@@ -195,6 +219,11 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             toggled = true
             endTime = System.currentTimeMillis().toInt()
         }
+
+    }
+    override fun onResume() {
+        super.onResume()
+        isPaused = false
     }
 
     fun deviceSelected(device: A5Device) {
@@ -314,4 +343,5 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     private fun stopTimer() {
         countDownTimer?.cancel()
     }
+
 }
