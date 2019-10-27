@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bluetooth</string>
+    <string name="app_name">Actic5 Music</string>
 
     <string name="button">Button</string>
     <string name="connect">Connect</string>
@@ -10,6 +10,8 @@
     <string name="start_isometric">Start Isometric</string>
     <string name="scan_devices">Scan Devices</string>
     <string name="tare">Tare</string>
+    <string name="instruc">1. For inital setup, please press "Scan Devices" to search for Activ5 device\n
+    </string>
 
     <string name="disconnected">Disconnected</string>
 
