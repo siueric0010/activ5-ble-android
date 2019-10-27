@@ -30,9 +30,12 @@ import java.util.*
 import kotlin.concurrent.thread
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
-    val MAX_SECONDS = 60
+    private val MAX_SECONDS = 30
     private var max = 350
     private var sessionBest = 0
+    companion object {
+        private var allTimeBest = 0
+    }
     private var seconds = MAX_SECONDS
     private var hasNotReachedZero = false
 
@@ -70,16 +73,33 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
             startActivity(intent)
 
         }
+        thread (start=true){ // launch a new coroutine in background and continue
+            while (seconds > 0) {
+                Thread.sleep(1000) // non-blocking delay for 1 second (default time unit is ms)
+                seconds--
+                sessionBest += progressBar2.progress
+                if(sessionBest >= allTimeBest) {
+                    allTimeBest = sessionBest
+                }
+            }
+        }
     }
     override fun onResume() {
         super.onResume()
         seconds = MAX_SECONDS
+        sessionBest = 0
         runOnUiThread {
             backButton.visibility = View.INVISIBLE
         }
         startBluetooth()
     }
 
+    override fun onStop() {
+        super.onStop()
+        runOnUiThread {
+            progressBar2.progress = 0;
+        }
+    }
 
     override fun bluetoothIsSwitchedOff() {
         Toast.makeText(this, "bluetooth is switched off", Toast.LENGTH_SHORT).show()
@@ -91,12 +111,7 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
 
     override fun didReceiveIsometric(device: A5Device, value: Int) {
 
-        thread { // launch a new coroutine in background and continue
-            while(seconds > 0) {
-                Thread.sleep(1000) // non-blocking delay for 1 second (default time unit is ms)
-                seconds--
-            }
-        }
+
         if(seconds <= 0) {
             runOnUiThread {
                 backButton.visibility = View.VISIBLE
@@ -122,7 +137,7 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         runOnUiThread {
             progressBar2.setProgress(100.times((thisValue.toFloat().div(max.toFloat()))).toInt(), true)
             textView.text = String.format("%d", 100.times((thisValue.toFloat().div(max.toFloat()))).toInt())
-            textView2.text = String.format("Time Left: %ds Best: %d", seconds, sessionBest)
+            textView2.text = String.format("Time Left: %ds Best: %d Score: %d", seconds, allTimeBest, sessionBest)
         }
     }
 

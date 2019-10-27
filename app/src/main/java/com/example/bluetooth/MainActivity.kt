@@ -113,7 +113,14 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
 
         disconnectButton.setOnClickListener {
+            for (device in connectedDevices) {
+                device?.disconnect()
+            }
             device?.disconnect()
+            device = null
+            connectedDevices.clear()
+            deviceAdapter.clearDevices()
+            print("Device Disconnected", 404)
         }
 
 //        sendStopCommandButton.setOnClickListener {
@@ -340,20 +347,5 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
     }
 
-    private fun startTimer() {
-        counter = 0
-        countDownTimer = object : CountDownTimer(420000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                counter++
-            }
-
-            override fun onFinish() {
-            }
-        }.start()
-    }
-
-    private fun stopTimer() {
-        countDownTimer?.cancel()
-    }
 
 }
