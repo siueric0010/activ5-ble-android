@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -96,6 +97,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.requestAudioFocus(audioFocusRequest)

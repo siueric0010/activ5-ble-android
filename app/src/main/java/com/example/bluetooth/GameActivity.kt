@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Half.toFloat
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
