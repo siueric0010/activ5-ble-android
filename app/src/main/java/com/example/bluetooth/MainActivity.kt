@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             .setAudioAttributes(audioAttributes).setOnAudioFocusChangeListener { }.build()
 
 
-    public val EXTRA_MESSAGE = "818fhfh8geh9"
 
     override fun bluetoothIsSwitchedOff() {
         Toast.makeText(this, "bluetooth is switched off", Toast.LENGTH_SHORT).show()
