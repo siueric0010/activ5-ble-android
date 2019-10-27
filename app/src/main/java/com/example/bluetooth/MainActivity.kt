@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.requestAudioFocus(audioFocusRequest)
-        button.setOnClickListener { changeButton() }
+//        button.setOnClickListener { changeButton() }
 
         requestPermission()
         initRecyclerView()
@@ -116,23 +116,23 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
             device?.disconnect()
         }
 
-        sendStopCommandButton.setOnClickListener {
-            device?.stop()
-            startTimer()
-        }
-
-        abortStopCommandButton.setOnClickListener {
-            device?.startIsometric()
-            stopTimer()
-        }
-
-        startIsometricButton.setOnClickListener {
-            //device?.startIsometric()
-        }
-
-        tareButton.setOnClickListener {
-            device?.tare()
-        }
+//        sendStopCommandButton.setOnClickListener {
+//            device?.stop()
+//            startTimer()
+//        }
+//
+//        abortStopCommandButton.setOnClickListener {
+//            device?.startIsometric()
+//            stopTimer()
+//        }
+//
+//        startIsometricButton.setOnClickListener {
+//            //device?.startIsometric()
+//        }
+//
+//        tareButton.setOnClickListener {
+//            device?.tare()
+//        }
 
         scanDevices.setOnClickListener {
             for (device in connectedDevices) {
@@ -176,15 +176,15 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         }
     }
 
-    @Synchronized
-    private fun print2(name: String, value: Int) {
-        runOnUiThread {
-            pressureChangedTextView2.text =
-                String.format(
-                    Locale.US, "%s: %d", name, value
-                )
-        }
-    }
+//    @Synchronized
+//    private fun print2(name: String, value: Int) {
+//        runOnUiThread {
+//            pressureChangedTextView2.text =
+//                String.format(
+//                    Locale.US, "%s: %d", name, value
+//                )
+//        }
+//    }
 
     private fun manageReceiveIsometric(thisDevice: A5Device, thisValue: Int) {
         if(!isPaused) {
@@ -207,9 +207,10 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
         if (connectedDevices.isNotEmpty()) {
             if (connectedDevices[0]?.device?.address == thisDevice.device.address) {
                 print(thisDevice.device.name, thisValue)
-            } else if (connectedDevices.size > 1 && connectedDevices[1]?.device?.address == thisDevice.device.address) {
-                print2(thisDevice.device.name, thisValue)
             }
+            /*else if (connectedDevices.size > 1 && connectedDevices[1]?.device?.address == thisDevice.device.address) {
+                print2(thisDevice.device.name, thisValue)
+            }*/
         }
 
         if(startTime - endTime > 10 && startTime - endTime < 350 && toggled) {

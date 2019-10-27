@@ -4,147 +4,131 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#F1F7EE"
         tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
             android:id="@+id/recyclerView"
-            android:layout_height="100dp"/>
-
-    <TextView
-            android:background="@color/colorPrimary"
-            android:id="@+id/pressureChangedTextView1"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            android:layout_below="@id/recyclerView"
-            android:textColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:background="@color/colorPrimary"
-            android:id="@+id/pressureChangedTextView2"
-            android:textColor="@android:color/white"
-            android:layout_margin="8dp"
-            android:layout_toEndOf="@id/pressureChangedTextView1"
-            android:padding="8dp"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/recyclerView"
-            android:layout_height="wrap_content"/>
-
-    <Button
-            android:background="@color/colorPrimary"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            android:id="@+id/connectButton"
-            android:textColor="@android:color/white"
-            android:text="@string/connect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/pressureChangedTextView1"/>
-
-    <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_below="@id/pressureChangedTextView1"
-            android:layout_marginStart="138dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toEndOf="@id/connectButton"
-            android:background="@color/colorAccent"
+            android:layout_height="22dp"
+            />
+
+    <TextView
+            android:id="@+id/pressureChangedTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:background="#E3B505"
+            android:layout_marginLeft="10dp"
             android:padding="8dp"
-            android:text="@string/button"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            />
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#333745"
+            android:fontFamily="@font/open_sans_semibold"
+            android:gravity="center"
+            android:text="ACTIV5 MUSIC"
+            android:textAlignment="center"
+            android:textColor="#FCF7F8"
+            android:textSize="40dp"
+            android:textStyle="bold"
+
+            />
 
     <Button
-            android:background="@color/colorAccent"
-            android:layout_margin="8dp"
+            android:id="@+id/connectButton"
+            android:layout_width="198dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerView"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#97CC04"
+            android:text="@string/connect"
+            android:textColor="@android:color/white" />
+
+
+    <Button
             android:id="@+id/disconnectButton"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:text="@string/disconnect"
-            android:layout_width="wrap_content"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerView"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentRight="true"
             android:layout_toEndOf="@id/connectButton"
-            android:layout_below="@id/pressureChangedTextView1"/>
+            android:background="#95190C"
+            android:text="@string/disconnect"
+            android:textColor="@android:color/white"
+
+            />
+
 
     <Button
-            android:id="@+id/sendStopCommandButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/connectButton"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/colorPrimary"
-            android:padding="8dp"
-            android:text="@string/stop_command"
+            android:id="@+id/startIsometricButton"
+            android:layout_width="183dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/disconnectButton"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@id/scanDevices"
+            android:background="#373F47"
+            android:text="@string/start_isometric"
             android:textColor="@android:color/white" />
 
     <Button
-            android:background="@color/colorPrimary"
-            android:layout_margin="8dp"
-            android:id="@+id/abortStopCommandButton"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:text="@string/abort_stop_command"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/sendStopCommandButton"
-            android:layout_below="@id/connectButton"/>
-
-    <Button
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            android:layout_marginStart="8dp"
-            android:id="@+id/startIsometricButton"
-            android:textColor="@android:color/white"
-            android:text="@string/start_isometric"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/abortStopCommandButton"/>
-
-    <Button
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:id="@+id/tareButton"
-            android:layout_toEndOf="@id/startIsometricButton"
-            android:textColor="@android:color/white"
-            android:text="@string/tare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/abortStopCommandButton"/>
-
-    <Button
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            android:layout_marginEnd="8dp"
             android:id="@+id/scanDevices"
-            android:layout_toEndOf="@id/tareButton"
-            android:textColor="@android:color/white"
+            android:layout_width="197dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/connectButton"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#373F47"
             android:text="@string/scan_devices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/abortStopCommandButton"/>
+            android:textColor="@android:color/white" />
 
     <Button
             android:id="@+id/gameStart"
-            android:layout_width="396dp"
+            android:layout_width="fill_parent"
             android:layout_height="90dp"
             android:layout_below="@id/scanDevices"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="21dp"
             android:layout_marginRight="10dp"
-            android:background="#6495ED"
+            android:background="#4A6FA5"
             android:text="Start Game"
             android:textSize="20dp"
             android:textColor="@android:color/white" />
+    <TextView
+            android:id="@+id/instructions"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/gameStart"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#3A435E"
+            android:text="Instructions:"
+            android:textSize="22dp"
+        />
+
+<!--    <TextView-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:layout_below="@id/instructions"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:text="1. For initial setup, please select \"Scan Devices\""-->
+<!--        />-->
 </RelativeLayout>
