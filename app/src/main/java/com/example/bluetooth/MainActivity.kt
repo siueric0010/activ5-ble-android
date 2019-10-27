@@ -228,6 +228,7 @@ class MainActivity : AppCompatActivity(), A5BluetoothCallback {
     override fun onResume() {
         super.onResume()
         isPaused = false
+        startBluetooth()
     }
 
     fun deviceSelected(device: A5Device) {
