@@ -24,6 +24,7 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Thread.sleep
 import java.util.*
 
 class GameActivity : AppCompatActivity(), A5BluetoothCallback {
@@ -51,10 +52,21 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
         gameScreenIsometric(device, value)
     }
     private fun gameScreenIsometric(thisDevice: A5Device, thisValue: Int) {
-       /* if(thisValue > max) {
+        if(thisValue > max) {
             max = thisValue
             progressBar2.max = max
-        }*/
+        } else {
+            runOnUiThread {
+                sleep(1000)
+                if(progressBar2.max > 100) {
+                    progressBar2.max -= progressBar2.max / 10
+                } else {
+                    progressBar2.max = 100
+                }
+            }
+
+            progressBar2.max /= 10
+        }
 
 
         runOnUiThread {
