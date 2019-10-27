@@ -65,7 +65,6 @@ class GameActivity : AppCompatActivity(), A5BluetoothCallback {
                 }
             }
 
-            progressBar2.max /= 10
         }
 
 
